@@ -13,8 +13,8 @@ def get_douban_info():
     #return
 
     def fetch(session, page):
-        with (session.get(f'{url}{page*25}', headers=headers) as r, 
-            open(f'top250-{page}.html', 'w') as f):
+        with (session.get(f'{url}{page*25}', headers=headers) as r,
+            open(f'./douban_movie_html/top250-{page}.html', 'w') as f):
             f.write(r.text)
 
     def run_task():
@@ -24,13 +24,35 @@ def get_douban_info():
                 fetch(session, p)
         return
 
-    run_task()
+    def run_task2():
+
+        from multiprocessing import Pool
+
+        with requests.Session() as session:
+            data = ([(session, p) for p in range(25)])
+            print(data)
+
+        def fetch_proj(session, page):
+            with (session.get(f'{url}{page * 25}', headers=headers) as r,
+                  open(f'./douban_movie_html/top250-{page}.html', 'w') as f):
+                f.write(r.text)
+
+        with (Pool() as pool, requests.Session() as session):
+            pool.starmap(fetch_proj, data)
+
+            
+
+        return
+
+    # run_task()
+    # run_task2()
 
 
 
 if __name__ == '__main__':
 
-    # get_douban_info()
+    
+    get_douban_info()
 
 
 
