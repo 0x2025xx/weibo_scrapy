@@ -30,7 +30,7 @@ def get_douban_info():
 
 if __name__ == '__main__':
 
-    get_douban_info()
+    # get_douban_info()
 
 
 
